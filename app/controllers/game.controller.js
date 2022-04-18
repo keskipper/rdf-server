@@ -6,12 +6,12 @@ const Op = db.Sequelize.Op;
 // Create and Save
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.title) {
-      res.status(400).send({
-        message: "Content can not be empty!"
-      });
-      return;
-    }
+    // if (!req.body.title) {
+    //   res.status(400).send({
+    //     message: "Content can not be empty!"
+    //   });
+    //   return;
+    // }
     // Create a game
     const game = {
       title: req.body.title,
@@ -62,11 +62,11 @@ exports.findAll = (req, res) => {
       });
   };
 
-// Find all games within a radius of x miles. Returns 2 identical arrays of games.
+// Find all future games within a radius of x miles. Returns 2 identical arrays of games.
 exports.findGamesWithinMiles = (req, res) => {
     const meters = req.body.miles * 1609;
     const { userLat, userLng } = req.body;
-    sequelize.query(`SELECT * FROM games WHERE ST_Distance_Sphere(Point(${userLng}, ${userLat}), POINT(games.gameLng, games.gameLat)) <= ${meters};`)
+    sequelize.query(`SELECT * FROM games WHERE ST_Distance_Sphere(Point(${userLng}, ${userLat}), POINT(games.gameLng, games.gameLat)) <= ${meters} AND games.date >= CURDATE();`)
         .then(data => {
             if (data) {
                 res.send(data);
