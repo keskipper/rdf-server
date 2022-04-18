@@ -24,11 +24,11 @@ module.exports = (sequelize, Sequelize) => {
       age: {
         type: Sequelize.INTEGER
       },
-      lat: {
-        type: Sequelize.DECIMAL(6,5)
+      userLat: {
+        type: Sequelize.DECIMAL(6,4)
       },
-      lng: {
-        type: Sequelize.DECIMAL(6,5)
+      userLng: {
+        type: Sequelize.DECIMAL(6,4)
       }
     },
     {

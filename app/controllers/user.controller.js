@@ -21,8 +21,8 @@ exports.create = (req, res) => {
       jerseyNumber: req.body.jerseyNumber,
       gender: req.body.gender,
       age: req.body.age,
-      lat: req.body.lat,
-      lng: req.body.lng
+      userLat: req.body.userLat,
+      userLng: req.body.userLng
     };
     // Save in the database
     User.create(user)

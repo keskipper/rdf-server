@@ -1,3 +1,4 @@
+const { sequelize } = require("../models");
 const db = require("../models");
 const Game = db.games;
 const Op = db.Sequelize.Op;
@@ -15,8 +16,8 @@ exports.create = (req, res) => {
     const game = {
       title: req.body.title,
       description: req.body.description,
-      lat: req.body.lat,
-      lng: req.body.lng,
+      gameLat: req.body.lat,
+      gameLng: req.body.lng,
       address1: req.body.address1,
       address2: req.body.address2 ? req.body.address2 : null,
       city: req.body.city,
@@ -42,7 +43,7 @@ exports.create = (req, res) => {
       });
   };
 
-// Retrieve all from the database.
+// Retrieve all from the database (don't expose this func to end-users)
 exports.findAll = (req, res) => {
     Game.findAll()
       .then(data => {
@@ -61,7 +62,31 @@ exports.findAll = (req, res) => {
       });
   };
 
-// Find a single item with an id
+// Find all games within a geo radius (80467 meters = 50 miles)
+// SELECT * FROM games
+// WHERE ST_Distance_Sphere(Point(-95.3836, 29.6850), POINT(games.gameLng, games.gameLat)) <= 80467;
+// Returns two arrays
+exports.findGamesWithinMiles = (req, res) => {
+    const meters = req.params.miles * 1609;
+    console.log("param: ", req.params.miles, " mathed: ", meters)
+    sequelize.query(`SELECT * FROM games WHERE ST_Distance_Sphere(Point(-95.3836, 29.6850), POINT(games.gameLng, games.gameLat)) <= ;`)
+        .then(data => {
+            if (data) {
+                res.send(data);
+            } else {
+                res.status(404).send({
+                    message: "Cannot find games."
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error retrieving games."
+            });
+        });
+};
+
+// Find a single item by id
 exports.findOne = (req, res) => {
     const id = req.params.id;
     Game.findByPk(id)
@@ -146,7 +171,3 @@ exports.deleteAll = (req, res) => {
       });
   };
 
-// Find all published items
-exports.findAllPublished = (req, res) => {
-  
-};

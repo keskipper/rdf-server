@@ -6,11 +6,11 @@ module.exports = (sequelize, Sequelize) => {
       description: {
         type: Sequelize.STRING
       },
-      lat: {
-        type: Sequelize.DECIMAL(6,5)
+      gameLat: {
+        type: Sequelize.DECIMAL(6,4)
       },
-      lng: {
-        type: Sequelize.DECIMAL(6,5)
+      gameLng: {
+        type: Sequelize.DECIMAL(6,4)
       },
       address1: {
         type: Sequelize.STRING(45)

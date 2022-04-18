@@ -13,6 +13,6 @@ module.exports = app => {
     router.delete("/:id", users.delete);
     // Delete all
     router.delete("/", users.deleteAll);
-    
+
     app.use('/api/users', router);
   };
