@@ -1,3 +1,4 @@
+const { sequelize } = require("../models");
 const db = require("../models");
 const User = db.users;
 const Op = db.Sequelize.Op;
@@ -55,6 +56,23 @@ exports.findAll = (req, res) => {
         });
       });
   };
+
+// Find user by email address
+exports.findByEmail = (req, res) => {
+  const email = req.body.email;
+  console.log("****************************************************************Body: ", req.body)
+  
+  sequelize.query(`SELECT id FROM users WHERE users.email = "${email}"`, {raw: true, plain: true})
+    .then(data => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.send({
+          message: "NOTFOUND"
+        });
+      }
+    })
+}
 
 // Find a single item with an id
 exports.findOne = (req, res) => {
