@@ -62,26 +62,23 @@ exports.findAll = (req, res) => {
       });
   };
 
-// Find all games within a geo radius (80467 meters = 50 miles)
-// SELECT * FROM games
-// WHERE ST_Distance_Sphere(Point(-95.3836, 29.6850), POINT(games.gameLng, games.gameLat)) <= 80467;
-// Returns two arrays
+// Find all games within a radius of x miles. Returns 2 identical arrays of games.
 exports.findGamesWithinMiles = (req, res) => {
-    const meters = req.params.miles * 1609;
-    console.log("param: ", req.params.miles, " mathed: ", meters)
-    sequelize.query(`SELECT * FROM games WHERE ST_Distance_Sphere(Point(-95.3836, 29.6850), POINT(games.gameLng, games.gameLat)) <= ;`)
+    const meters = req.body.miles * 1609;
+    const { userLat, userLng } = req.body;
+    sequelize.query(`SELECT * FROM games WHERE ST_Distance_Sphere(Point(${userLng}, ${userLat}), POINT(games.gameLng, games.gameLat)) <= ${meters};`)
         .then(data => {
             if (data) {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: "Cannot find games."
+                    message: "Cannot find games, error code 404."
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving games."
+                message: "Error retrieving games, error code 500."
             });
         });
 };
