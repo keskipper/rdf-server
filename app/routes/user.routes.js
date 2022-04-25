@@ -4,7 +4,7 @@ module.exports = app => {
     // Retrieve one by email
     router.post("/email", users.findByEmail);
     // Create new
-    //router.post("/", users.create);
+    router.post("/", users.create);
     // Retrieve all
     router.get("/", users.findAll);
     // Retrieve one by id

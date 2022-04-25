@@ -6,18 +6,18 @@ const Op = db.Sequelize.Op;
 // Create and Save
 exports.create = (req, res) => {
     // Validate request
-    // if (!req.body.title) {
-    //   res.status(400).send({
-    //     message: "Content can not be empty!"
-    //   });
-    //   return;
-    // }
+    if (!req.body.title || !req.body.description || !req.body.gameLat || !req.body.gameLng || !req.body.address1 || !req.body.city || !req.body.state || !req.body.zip || !req.body.venueName || !req.body.date || !req.body.organizer) {
+      res.status(400).send({
+        message: "Content cannot be empty!"
+      });
+      return;
+    }
     // Create a game
     const game = {
       title: req.body.title,
       description: req.body.description,
-      gameLat: req.body.lat,
-      gameLng: req.body.lng,
+      gameLat: req.body.gameLat,
+      gameLng: req.body.gameLng,
       address1: req.body.address1,
       address2: req.body.address2 ? req.body.address2 : null,
       city: req.body.city,
@@ -25,11 +25,9 @@ exports.create = (req, res) => {
       zip: req.body.zip,
       venueName: req.body.venueName,
       date: req.body.date,
-      time: req.body.time,
-      organizer1: req.body.organizer1,
-      organizer2: req.body.organizer2 ? req.body.organizer2: null,
-      organizer3: req.body.organizer3 ? req.body.organizer3: null
+      organizer: req.body.organizer
     };
+    console.log("organizer: ", game.organizer)
     // Save game in the database
     Game.create(game)
       .then(data => {

@@ -6,10 +6,11 @@ const Op = db.Sequelize.Op;
 // Create and Save
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.firstName) {
+    if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.gender || !req.body.age || !req.body.userLat || !req.body.userLng) {
       res.status(400).send({
-        message: "Content can not be empty!"
+        message: "Content missing or data invalid."
       });
+      console.log("Request contents:", req.body);
       return;
     }
     // Create item
@@ -60,9 +61,8 @@ exports.findAll = (req, res) => {
 // Find user by email address
 exports.findByEmail = (req, res) => {
   const email = req.body.email;
-  console.log("****************************************************************Body: ", req.body)
   
-  sequelize.query(`SELECT id FROM users WHERE users.email = "${email}"`, {raw: true, plain: true})
+  sequelize.query(`SELECT * FROM users WHERE users.email = "${email}"`, {raw: true, plain: true})
     .then(data => {
       if (data) {
         res.send(data);
@@ -107,7 +107,7 @@ exports.update = (req, res) => {
           });
         } else {
           res.send({
-            message: `Cannot update User with id=${id}. Maybe the User was not found or req.body is empty!`
+            message: `Cannot update User with id=${id}. Maybe the User was not found or req.body is empty! Req.body.jerseyNumber: ${req.body.jerseyNumber}`
           });
         }
       })
