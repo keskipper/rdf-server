@@ -64,7 +64,7 @@ exports.findAll = (req, res) => {
 exports.findGamesWithinMiles = (req, res) => {
     const meters = req.body.miles * 1609;
     const { userLat, userLng } = req.body;
-    sequelize.query(`SELECT * FROM games WHERE games.date >= CURDATE() AND ST_Distance_Sphere(Point(${userLng}, ${userLat}), POINT(games.gameLng, games.gameLat)) <= ${meters};`)
+    sequelize.query(`SELECT * FROM games WHERE games.date >= CURDATE() AND ST_Distance_Sphere(Point(${userLng}, ${userLat}), POINT(games.gameLng, games.gameLat)) <= ${meters};`, { type: sequelize.QueryTypes.SELECT })
         .then(data => {
             if (data) {
                 res.send(data);

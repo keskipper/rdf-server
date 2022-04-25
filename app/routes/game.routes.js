@@ -6,7 +6,7 @@ module.exports = app => {
     // Retrieve all
     router.get("/", games.findAll);
     // Retrieve all games within miles of radius
-    router.get("/limitbydistance", games.findGamesWithinMiles);
+    router.post("/limitbydistance", games.findGamesWithinMiles);
     // Retrieve one by id
     router.get("/:id", games.findOne);
     // Update by id

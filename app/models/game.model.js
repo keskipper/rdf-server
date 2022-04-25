@@ -36,13 +36,7 @@ module.exports = (sequelize, Sequelize) => {
       time: {
         type: Sequelize.STRING
       },
-      organizer1: {
-        type: Sequelize.INTEGER
-      },
-      organizer2: {
-        type: Sequelize.INTEGER
-      },
-      organizer3: {
+      organizer: {
         type: Sequelize.INTEGER
       }
     },
