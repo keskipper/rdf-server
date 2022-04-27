@@ -4,7 +4,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING(100)
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(500)
       },
       gameLat: {
         type: Sequelize.DECIMAL(6,4)
@@ -33,11 +33,17 @@ module.exports = (sequelize, Sequelize) => {
       date: {
         type: Sequelize.DATE
       },
-      time: {
-        type: Sequelize.STRING
-      },
       organizer: {
         type: Sequelize.INTEGER
+      },
+      rosterOpen: {
+        type: Sequelize.BOOLEAN
+      },
+      hostingLeague: {
+        type: Sequelize.STRING(100)
+      },
+      gameGender: {
+        type: Sequelize.CHAR(1)
       }
     },
     {

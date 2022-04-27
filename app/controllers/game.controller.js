@@ -25,7 +25,10 @@ exports.create = (req, res) => {
       zip: req.body.zip,
       venueName: req.body.venueName,
       date: req.body.date,
-      organizer: req.body.organizer
+      organizer: req.body.organizer,
+      rosterOpen: req.body.rosterOpen,
+      hostingLeague: req.body.hostingLeague,
+      gameGender: req.body.gameGender
     };
     console.log("organizer: ", game.organizer)
     // Save game in the database
