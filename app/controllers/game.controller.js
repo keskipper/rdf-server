@@ -30,7 +30,6 @@ exports.create = (req, res) => {
       hostingLeague: req.body.hostingLeague,
       gameGender: req.body.gameGender
     };
-    console.log("organizer: ", game.organizer)
     // Save game in the database
     Game.create(game)
       .then(data => {
@@ -66,8 +65,9 @@ exports.findAll = (req, res) => {
 // Find all future games within a radius of x miles. Returns 2 identical arrays of games.
 exports.findGamesWithinMiles = (req, res) => {
     const meters = req.body.miles * 1609;
-    const { userLat, userLng } = req.body;
-    sequelize.query(`SELECT * FROM games WHERE games.date >= CURDATE() AND ST_Distance_Sphere(Point(${userLng}, ${userLat}), POINT(games.gameLng, games.gameLat)) <= ${meters};`, { type: sequelize.QueryTypes.SELECT })
+    const { userLat, userLng, orderField } = req.body;
+    //sequelize.query(`SELECT * FROM games WHERE games.date >= CURDATE() AND ST_Distance_Sphere(Point(${userLng}, ${userLat}), POINT(games.gameLng, games.gameLat)) <= ${meters} ORDER BY ${orderField} ASC;`, { type: sequelize.QueryTypes.SELECT })
+    sequelize.query(`SELECT gameresult.*, ST_Distance_Sphere(Point(${userLng}, ${userLat}), POINT(gameresult.gameLng, gameresult.gameLat)) AS distance FROM (SELECT * FROM games WHERE games.date >= CURDATE() AND ST_Distance_Sphere(Point(${userLng}, ${userLat}), POINT(games.gameLng, games.gameLat)) <= ${meters}) AS gameresult ORDER BY ${orderField} ASC;`, { type: sequelize.QueryTypes.SELECT })
         .then(data => {
             if (data) {
                 res.send(data);
