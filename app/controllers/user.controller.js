@@ -6,7 +6,7 @@ const Op = db.Sequelize.Op;
 // Create and Save
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.gender || !req.body.age || !req.body.userLat || !req.body.userLng) {
+    if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.gender || !req.body.age || !req.body.userLat || !req.body.userLng || !req.body.birthdate) {
       res.status(400).send({
         message: "Content missing or data invalid."
       });
@@ -24,7 +24,8 @@ exports.create = (req, res) => {
       gender: req.body.gender,
       age: req.body.age,
       userLat: req.body.userLat,
-      userLng: req.body.userLng
+      userLng: req.body.userLng,
+      birthdate: req.body.birthdate
     };
     // Save in the database
     User.create(user)

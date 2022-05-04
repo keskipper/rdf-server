@@ -6,9 +6,9 @@ const Op = db.Sequelize.Op;
 // Create and Save
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.title || !req.body.description || !req.body.gameLat || !req.body.gameLng || !req.body.address1 || !req.body.city || !req.body.state || !req.body.zip || !req.body.venueName || !req.body.date || !req.body.organizer) {
+    if (!req.body.title || !req.body.description || !req.body.venueName || !req.body.date) {
       res.status(400).send({
-        message: "Content cannot be empty!"
+        message: "Fields cannot be empty!"
       });
       return;
     }
@@ -28,7 +28,9 @@ exports.create = (req, res) => {
       organizer: req.body.organizer,
       rosterOpen: req.body.rosterOpen,
       hostingLeague: req.body.hostingLeague,
-      gameGender: req.body.gameGender
+      gameGender: req.body.gameGender,
+      timezoneOffset: req.body.timezoneOffset,
+      timezoneAbbr: req.body.timezoneAbbr
     };
     // Save game in the database
     Game.create(game)

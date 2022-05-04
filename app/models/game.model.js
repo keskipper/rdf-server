@@ -7,10 +7,10 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING(500)
       },
       gameLat: {
-        type: Sequelize.DECIMAL(6,4)
+        type: Sequelize.DECIMAL(7,4)
       },
       gameLng: {
-        type: Sequelize.DECIMAL(6,4)
+        type: Sequelize.DECIMAL(7,4)
       },
       address1: {
         type: Sequelize.STRING(45)
@@ -28,7 +28,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER
       },
       venueName: {
-        type: Sequelize.STRING(100)
+        type: Sequelize.STRING(200)
       },
       date: {
         type: Sequelize.DATE
@@ -44,6 +44,12 @@ module.exports = (sequelize, Sequelize) => {
       },
       gameGender: {
         type: Sequelize.CHAR(1)
+      },
+      timezoneOffset: {
+        type: Sequelize.INTEGER
+      },
+      timezoneAbbr: {
+        type: Sequelize.CHAR(3)
       }
     },
     {

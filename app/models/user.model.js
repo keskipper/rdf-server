@@ -25,10 +25,13 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER
       },
       userLat: {
-        type: Sequelize.DECIMAL(6,4)
+        type: Sequelize.DECIMAL(7,4)
       },
       userLng: {
-        type: Sequelize.DECIMAL(6,4)
+        type: Sequelize.DECIMAL(7,4)
+      },
+      birthdate: {
+        type: Sequelize.DATE
       }
     },
     {
