@@ -8,7 +8,7 @@ exports.create = (req, res) => {
     // Validate request
     if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.gender || !req.body.age || !req.body.userLat || !req.body.userLng || !req.body.birthdate) {
       res.status(400).send({
-        message: "Content missing or data invalid."
+        message: "Fields cannot be empty!"
       });
       console.log("Request contents:", req.body);
       return;

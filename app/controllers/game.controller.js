@@ -6,7 +6,7 @@ const Op = db.Sequelize.Op;
 // Create and Save
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.title || !req.body.description || !req.body.venueName || !req.body.date) {
+    if (!req.body.title || !req.body.description || !req.body.venueName || !req.body.date || !req.body.timezoneAbbr || !req.body.timezoneString) {
       res.status(400).send({
         message: "Fields cannot be empty!"
       });
@@ -29,8 +29,9 @@ exports.create = (req, res) => {
       rosterOpen: req.body.rosterOpen,
       hostingLeague: req.body.hostingLeague,
       gameGender: req.body.gameGender,
-      timezoneOffset: req.body.timezoneOffset,
-      timezoneAbbr: req.body.timezoneAbbr
+      timezoneAbbr: req.body.timezoneAbbr,
+      timezoneString: req.body.timezoneString,
+      adult: req.body.adult
     };
     // Save game in the database
     Game.create(game)
@@ -67,9 +68,21 @@ exports.findAll = (req, res) => {
 // Find all future games within a radius of x miles. Returns 2 identical arrays of games.
 exports.findGamesWithinMiles = (req, res) => {
     const meters = req.body.miles * 1609;
-    const { userLat, userLng, orderField } = req.body;
+    const { adult, userLat, userLng, orderField } = req.body;
     //sequelize.query(`SELECT * FROM games WHERE games.date >= CURDATE() AND ST_Distance_Sphere(Point(${userLng}, ${userLat}), POINT(games.gameLng, games.gameLat)) <= ${meters} ORDER BY ${orderField} ASC;`, { type: sequelize.QueryTypes.SELECT })
-    sequelize.query(`SELECT gameresult.*, ST_Distance_Sphere(Point(${userLng}, ${userLat}), POINT(gameresult.gameLng, gameresult.gameLat)) AS distance FROM (SELECT * FROM games WHERE games.date >= CURDATE() AND ST_Distance_Sphere(Point(${userLng}, ${userLat}), POINT(games.gameLng, games.gameLat)) <= ${meters}) AS gameresult ORDER BY ${orderField} ASC;`, { type: sequelize.QueryTypes.SELECT })
+    sequelize.query(`SELECT gameresult.*, 
+        ST_Distance_Sphere(Point(${userLng}, ${userLat}), POINT(gameresult.gameLng, gameresult.gameLat)) 
+        AS distance 
+        FROM 
+          (SELECT * FROM games 
+            WHERE games.date >= CURDATE() 
+            AND games.adult = "${adult}"
+            AND ST_Distance_Sphere(Point(${userLng}, ${userLat}), POINT(games.gameLng, games.gameLat)) <= ${meters}
+          ) 
+        AS gameresult 
+        ORDER BY ${orderField} ASC;`, 
+        { type: sequelize.QueryTypes.SELECT }
+        )
         .then(data => {
             if (data) {
                 res.send(data);

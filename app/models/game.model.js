@@ -45,11 +45,14 @@ module.exports = (sequelize, Sequelize) => {
       gameGender: {
         type: Sequelize.CHAR(1)
       },
-      timezoneOffset: {
-        type: Sequelize.INTEGER
-      },
       timezoneAbbr: {
         type: Sequelize.CHAR(3)
+      }, 
+      timezoneString: {
+        type: Sequelize.STRING(45)
+      },
+      adult: {
+        type: Sequelize.STRING(6)
       }
     },
     {

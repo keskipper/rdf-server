@@ -14,7 +14,7 @@ module.exports = app => {
     // Delete one by id
     router.delete("/:id", games.delete);
     // Delete all
-    router.delete("/", games.deleteAll);
+    //router.delete("/", games.deleteAll);
     
     app.use('/api/games', router);
   };
