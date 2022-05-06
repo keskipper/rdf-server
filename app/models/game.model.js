@@ -37,7 +37,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER
       },
       rosterOpen: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.STRING(6)
       },
       hostingLeague: {
         type: Sequelize.STRING(100)

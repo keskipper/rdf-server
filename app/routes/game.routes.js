@@ -7,6 +7,10 @@ module.exports = app => {
     router.get("/", games.findAll);
     // Retrieve all games within miles of radius
     router.post("/limitbydistance", games.findGamesWithinMiles);
+    // Retrieve all games with an organizer's id
+    router.post("/findByOrganizer", games.findByOrganizer);
+    // Retrieve all users in a game by game id
+    router.post("/getGameRoster", games.getGameRoster);
     // Retrieve one by id
     router.get("/:id", games.findOne);
     // Update by id

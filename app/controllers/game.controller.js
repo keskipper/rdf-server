@@ -65,7 +65,7 @@ exports.findAll = (req, res) => {
       });
   };
 
-// Find all future games within a radius of x miles. Returns 2 identical arrays of games.
+// Find all future games within a radius of x miles
 exports.findGamesWithinMiles = (req, res) => {
     const meters = req.body.miles * 1609;
     const { adult, userLat, userLng, orderField } = req.body;
@@ -97,6 +97,61 @@ exports.findGamesWithinMiles = (req, res) => {
                 message: "Error retrieving games, error code 500."
             });
         });
+};
+
+// Get roster of players in a given game
+exports.getGameRoster = (req, res) => {
+  sequelize.query(`SELECT * FROM
+      (SELECT u.firstName, u.lastName, u.derbyName, u.jerseyNumber, u.phone, u.email, g.title, g.date, g.id
+          FROM users u
+          RIGHT JOIN jct_users_games j
+          ON u.id = j.userId
+          LEFT JOIN games g
+          ON g.id = j.gameId
+          ) AS q
+      WHERE q.id = ${req.body.id}
+      GROUP BY q.email;`, 
+      { type: sequelize.QueryTypes.SELECT }
+      )
+      .then(data => {
+          if (data) {
+              res.send(data);
+          } else {
+              res.status(404).send({
+                  message: "Cannot find any results, error code 404."
+              });
+          }
+      })
+      .catch(err => {
+          res.status(500).send({
+              message: err.message
+          });
+      });
+}
+
+
+// Find a single game by organizer's id
+exports.findByOrganizer = (req, res) => {
+    Game.findAll({
+      where: {
+        organizer: req.body.organizer
+      },
+      order: [
+        ['date', 'DESC']
+      ]
+    }).then(data => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: "Can't find any games for that organizer id."
+        });
+      }
+    }).catch(err => {
+      res.status(500).send({
+        message: err.message
+      });
+    });
 };
 
 // Find a single item by id
