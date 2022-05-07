@@ -129,8 +129,7 @@ exports.getGameRoster = (req, res) => {
       });
 }
 
-
-// Find a single game by organizer's id
+// Find all games for an organizer's id
 exports.findByOrganizer = (req, res) => {
     Game.findAll({
       where: {
@@ -153,6 +152,37 @@ exports.findByOrganizer = (req, res) => {
       });
     });
 };
+
+// Find all games in which a user is a skater
+exports.findGamesWhereUserSkates = (req, res) => {
+  sequelize.query(`SELECT * FROM
+	    (SELECT g.title, g.date, u.email
+          FROM users u
+          RIGHT JOIN jct_users_games j
+          ON u.id = j.userId
+          LEFT JOIN games g
+          ON g.id = j.gameId
+          ) AS q
+      WHERE q.email = "${req.body.email}"
+      GROUP BY q.title
+      ORDER BY q.date ASC;`, 
+      { type: sequelize.QueryTypes.SELECT }
+      )
+      .then(data => {
+          if (data) {
+              res.send(data);
+          } else {
+              res.status(404).send({
+                  message: "Cannot find any results, error code 404."
+              });
+          }
+      })
+      .catch(err => {
+          res.status(500).send({
+              message: err.message
+          });
+      });
+}
 
 // Find a single item by id
 exports.findOne = (req, res) => {

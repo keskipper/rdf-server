@@ -11,6 +11,8 @@ module.exports = app => {
     router.post("/findByOrganizer", games.findByOrganizer);
     // Retrieve all users in a game by game id
     router.post("/getGameRoster", games.getGameRoster);
+    // Retrieve all games in which a user is a skater
+    router.post("/findGamesWhereUserSkates", games.findGamesWhereUserSkates);
     // Retrieve one by id
     router.get("/:id", games.findOne);
     // Update by id
