@@ -131,12 +131,16 @@ exports.getGameRoster = (req, res) => {
 
 // Find all games for an organizer's id
 exports.findByOrganizer = (req, res) => {
+  const NOW = new Date();
     Game.findAll({
       where: {
-        organizer: req.body.organizer
+        organizer: req.body.organizer,
+        date: {
+          [Op.gte]: NOW
+        }
       },
       order: [
-        ['date', 'DESC']
+        ['date', 'ASC']
       ]
     }).then(data => {
       if (data) {
@@ -156,14 +160,14 @@ exports.findByOrganizer = (req, res) => {
 // Find all games in which a user is a skater
 exports.findGamesWhereUserSkates = (req, res) => {
   sequelize.query(`SELECT * FROM
-	    (SELECT g.title, g.date, u.email
+	    (SELECT g.*, u.email, j.skaterType
           FROM users u
           RIGHT JOIN jct_users_games j
           ON u.id = j.userId
           LEFT JOIN games g
           ON g.id = j.gameId
           ) AS q
-      WHERE q.email = "${req.body.email}"
+      WHERE q.email = "${req.body.email}" AND q.date >= CURDATE()
       GROUP BY q.title
       ORDER BY q.date ASC;`, 
       { type: sequelize.QueryTypes.SELECT }
