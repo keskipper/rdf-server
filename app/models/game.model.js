@@ -36,7 +36,10 @@ module.exports = (sequelize, Sequelize) => {
       organizer: {
         type: Sequelize.INTEGER
       },
-      rosterOpen: {
+      skaterRoster: {
+        type: Sequelize.STRING(6)
+      },
+      officialRoster: {
         type: Sequelize.STRING(6)
       },
       hostingLeague: {

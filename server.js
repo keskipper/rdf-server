@@ -12,11 +12,12 @@ app.use(express.urlencoded({ extended: true }));
 // simple route
 
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to server application." });
+  res.json({ message: "Welcome to rollerderbyfinder server application." });
 });
 
 require('./app/routes/user.routes')(app);
 require('./app/routes/game.routes')(app);
+require('./app/routes/jct_users_games.routes')(app);
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

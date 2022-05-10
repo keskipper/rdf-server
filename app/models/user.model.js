@@ -21,9 +21,6 @@ module.exports = (sequelize, Sequelize) => {
       gender: {
         type: Sequelize.CHAR(1)
       },
-      age: {
-        type: Sequelize.INTEGER
-      },
       userLat: {
         type: Sequelize.DECIMAL(7,4)
       },

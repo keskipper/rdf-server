@@ -5,15 +5,15 @@ const Op = db.Sequelize.Op;
 
 // Create and Save
 exports.create = (req, res) => {
-    // Validate request
-    if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.gender || !req.body.age || !req.body.userLat || !req.body.userLng || !req.body.birthdate) {
+    
+    if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.gender || !req.body.userLat || !req.body.userLng || !req.body.birthdate) {
       res.status(400).send({
         message: "Fields cannot be empty!"
       });
-      console.log("Request contents:", req.body);
+
       return;
     }
-    // Create item
+    console.log("Request contents:", req.body);
     const user = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -22,12 +22,11 @@ exports.create = (req, res) => {
       phone: req.body.phone,
       jerseyNumber: req.body.jerseyNumber,
       gender: req.body.gender,
-      age: req.body.age,
       userLat: req.body.userLat,
       userLng: req.body.userLng,
       birthdate: req.body.birthdate
     };
-    // Save in the database
+    
     User.create(user)
       .then(data => {
         res.send(data);
