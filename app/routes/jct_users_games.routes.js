@@ -5,6 +5,8 @@ module.exports = app => {
     router.post("/", jct_users_games.create);
     // Retrieve one by id
     router.get("/:id", jct_users_games.findOne);
+    // Find one relation given a userId and a gameId
+    router.post("/findRelation", jct_users_games.findRelation);
     // Delete one by id
     router.delete("/:id", jct_users_games.delete);
     
