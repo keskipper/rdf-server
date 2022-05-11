@@ -6,7 +6,7 @@ const Op = db.Sequelize.Op;
 // Create and Save
 exports.create = (req, res) => {
     
-    if (!req.body.userId || !req.body.gameId || !req.body.skaterType) {
+    if (!req.body.userId || !req.body.gameId || !req.body.joinType) {
       res.status(400).send({
         message: "Fields cannot be empty!"
       });
@@ -16,7 +16,7 @@ exports.create = (req, res) => {
     const jct_users_games = {
       userId: req.body.userId,
       gameId: req.body.gameId,
-      skaterType: req.body.skaterType
+      joinType: req.body.joinType
     };
     
     Jct_users_games.create(jct_users_games)

@@ -158,10 +158,10 @@ exports.findByOrganizer = (req, res) => {
     });
 };
 
-// Find all games in which a user is a skater
-exports.findGamesWhereUserSkates = (req, res) => {
+// Find all games to which a user is joined
+exports.findGamesWhereUserJoined = (req, res) => {
   sequelize.query(`SELECT * FROM
-	    (SELECT g.*, u.email, j.skaterType
+	    (SELECT g.*, u.email, j.joinType
           FROM users u
           RIGHT JOIN jct_users_games j
           ON u.id = j.userId

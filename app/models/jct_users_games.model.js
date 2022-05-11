@@ -6,7 +6,7 @@ module.exports = (sequelize, Sequelize) => {
       gameId: {
         type: Sequelize.INTEGER
       },
-      skaterType: {
+      joinType: {
         type: Sequelize.STRING(8)
       }
     },
