@@ -29,6 +29,9 @@ module.exports = (sequelize, Sequelize) => {
       },
       birthdate: {
         type: Sequelize.DATE
+      },
+      imgName: {
+        type: Sequelize.STRING(45)
       }
     },
     {
