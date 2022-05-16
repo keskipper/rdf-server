@@ -25,7 +25,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.CHAR(2)
       },
       zip: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER.ZEROFILL
       },
       venueName: {
         type: Sequelize.STRING(200)

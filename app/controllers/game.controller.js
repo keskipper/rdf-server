@@ -70,7 +70,6 @@ exports.findAll = (req, res) => {
 exports.findGamesWithinMiles = (req, res) => {
     const meters = req.body.miles * 1609;
     const { adult, userLat, userLng, orderField } = req.body;
-    //sequelize.query(`SELECT * FROM games WHERE games.date >= CURDATE() AND ST_Distance_Sphere(Point(${userLng}, ${userLat}), POINT(games.gameLng, games.gameLat)) <= ${meters} ORDER BY ${orderField} ASC;`, { type: sequelize.QueryTypes.SELECT })
     sequelize.query(`SELECT gameresult.*, 
         ST_Distance_Sphere(Point(${userLng}, ${userLat}), POINT(gameresult.gameLng, gameresult.gameLat)) 
         AS distance 
@@ -100,17 +99,17 @@ exports.findGamesWithinMiles = (req, res) => {
         });
 };
 
-// Get roster of players in a given game
+// Get roster of users in a given game by join type
 exports.getGameRoster = (req, res) => {
   sequelize.query(`SELECT * FROM
-      (SELECT u.firstName, u.lastName, u.derbyName, u.jerseyNumber, u.phone, u.email, g.title, g.date, g.id
+      (SELECT u.firstName, u.lastName, u.derbyName, u.jerseyNumber, u.phone, u.email, g.title, g.date, g.id AS gameId, j.id AS joinId, j.joinType
           FROM users u
           RIGHT JOIN jct_users_games j
           ON u.id = j.userId
           LEFT JOIN games g
           ON g.id = j.gameId
           ) AS q
-      WHERE q.id = ${req.body.id}
+      WHERE q.gameId = ${req.body.id} AND q.joinType = "${req.body.joinType}"
       GROUP BY q.email;`, 
       { type: sequelize.QueryTypes.SELECT }
       )
