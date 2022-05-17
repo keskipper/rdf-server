@@ -1,8 +1,8 @@
 module.exports = {
-    HOST: "localhost",
-    USER: "rollerderbyapp",
-    PASSWORD: "d3rbyp4ssw0rd",
-    DB: "rollerderbyfinder",
+    HOST: "us-cdbr-east-05.cleardb.net",
+    USER: "bedd43d067424f",
+    PASSWORD: "a951ebd5",
+    DB: "heroku_85b8b16ae133636",
     dialect: "mysql",
     pool: {
       max: 5,
