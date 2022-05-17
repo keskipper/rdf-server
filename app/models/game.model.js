@@ -42,6 +42,9 @@ module.exports = (sequelize, Sequelize) => {
       officialRoster: {
         type: Sequelize.STRING(6)
       },
+      nsoRoster: {
+        type: Sequelize.STRING(6)
+      },
       hostingLeague: {
         type: Sequelize.STRING(100)
       },

@@ -28,6 +28,7 @@ exports.create = (req, res) => {
       organizer: req.body.organizer,
       skaterRoster: req.body.skaterRoster,
       officialRoster: req.body.officialRoster,
+      nsoRoster: req.body.nsoRoster,
       hostingLeague: req.body.hostingLeague,
       gameGender: req.body.gameGender,
       timezoneAbbr: req.body.timezoneAbbr,
