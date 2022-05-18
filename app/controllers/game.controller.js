@@ -95,7 +95,7 @@ exports.findGamesWithinMiles = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving games, error code 500."
+                message: "Error retrieving games, error code 500.", err
             });
         });
 };
